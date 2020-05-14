@@ -142,7 +142,7 @@ class PrivateRecipeTestApi(TestCase):
         ingredient2 = sample_ingredient(user=self.user, name='milk')
         payload = {
             'title': 'Avacado time cheese cake',
-            'tags': [ingredient1.id, ingredient2.id],
+            'ingredients': [ingredient1.id, ingredient2.id],
             'time_minutes': 50,
             'price': 20.00
         }
@@ -150,7 +150,42 @@ class PrivateRecipeTestApi(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         recipe = Recipe.objects.get(id=res.data['id'])
-        ingredients = recipe.ingredient.all()
+        ingredients = recipe.ingredients.all()
         self.assertEqual(ingredients.count(), 2)
         self.assertIn(ingredient1, ingredients)
         self.assertIn(ingredient2, ingredients)
+
+    def test_partial_update_recipe(self):
+        """test updating a recipe with patch"""
+        recipe = sample_recipe(user=self.user)
+        recipe.tags.add(sample_tag(user=self.user))
+        new_tag = sample_tag(user=self.user, name='Curry')
+
+        payload = {'title': 'chicken tikka', 'tags': [new_tag.id]}
+        url = detail_url(recipe.id)
+        self.client.patch(url, payload)
+
+        recipe.refresh_from_db()
+        self.assertEqual(recipe.title, payload['title'])
+        tags = recipe.tags.all()
+        self.assertEqual(len(tags), 1)
+        self.assertIn(new_tag, tags)
+
+    def test_full_update_recipe(self):
+        """Test updating a recipe with put"""
+        recipe = sample_recipe(user=self.user)
+        recipe.tags.add(sample_tag(user=self.user))
+        payload = {
+            'title': 'chocolate lava cake',
+            'time_minutes': 30,
+            'price': 26.00
+        }
+        url = detail_url(recipe.id)
+        self.client.put(url, payload)
+
+        recipe.refresh_from_db()
+        self.assertEqual(recipe.title, payload['title'])
+        self.assertEqual(recipe.time_minutes, payload['time_minutes'])
+        self.assertEqual(recipe.price, payload['price'])
+        tags = recipe.tags.all()
+        self.assertEqual(len(tags), 0)
