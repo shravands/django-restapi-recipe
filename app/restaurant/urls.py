@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from restaurant import views
 
 router = DefaultRouter()
-router.register('recipes', views.RestaurantViewSet)
+router.register('restaurants', views.RestaurantViewSet)
 
 app_name = 'restaurant'
 

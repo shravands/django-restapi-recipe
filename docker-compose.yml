@@ -25,4 +25,6 @@ services:
     environment:
         - POSTGRES_DB=app
         - POSTGRES_USER=postgres
-        - POSTGRES_PASSWORD=supersecretpassword 
+        - POSTGRES_PASSWORD=supersecretpassword
+    ports:
+        - "6543:5432"
