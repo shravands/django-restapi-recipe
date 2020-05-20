@@ -75,6 +75,16 @@ class Ingredient(models.Model):
 
 class Recipe(models.Model):
     """Recipe object"""
+
+# Adding of choices for which the recipe category belongs to
+
+    CATEGORY_TYPE_CHOICES = (
+        ('vegan', 'VEGAN'),
+        ('vegetarian', 'VEGETERIAN'),
+        ('non_veg', 'NON-VEG'),
+        ('novalue', 'NOVALUE')
+        )
+
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
@@ -86,6 +96,34 @@ class Recipe(models.Model):
     ingredients = models.ManyToManyField('Ingredient')
     tags = models.ManyToManyField('Tag')
     image = models.ImageField(null=True, upload_to=recipe_image_file_path)
+    recipe_category = models.CharField(max_length=20, choices=CATEGORY_TYPE_CHOICES, default='novalue')
 
     def __str__(self):
         return self.title
+
+
+class Restaurant(models.Model):
+    """Restaurant object"""
+
+    GRADE_CATEGORY = (
+        ('single_star', 'single_star'),
+        ('two_star', 'two_star'),
+        ('three_star', 'three_star'),
+        ('five_star', 'five_star')
+    )
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        default=""
+    )
+    name = models.CharField(max_length=255)
+    space_valible = models.DecimalField(max_digits=10, decimal_places=2)
+    location = models.CharField(max_length=255, blank=True)
+    rating = models.DecimalField(max_digits=5, decimal_places=2)
+    restaurant_grade = models.CharField(max_length=20, choices=GRADE_CATEGORY, default=None)
+    email_contact = models.EmailField(max_length=50, unique=True)
+    recipes_avalible = models.ManyToManyField('Recipe')
+
+    def __str__(self):
+        return self.name

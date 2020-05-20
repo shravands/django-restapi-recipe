@@ -39,9 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'reset_migrations', #used for resetting migrations
     'core',
     'user',
     'recipe',
+    'restaurant',
 ]
 
 MIDDLEWARE = [

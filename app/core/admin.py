@@ -7,7 +7,7 @@ from core import models
 
 class UserAdmin(BaseUserAdmin):
     ordering = ['id']
-    list_display = ['email', 'name', 'is_superuser']
+    list_display = ['email', 'name', 'is_superuser','is_staff', 'is_active']
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         (_('Personal Info'), {'fields': ('name',)}),
@@ -24,8 +24,14 @@ class UserAdmin(BaseUserAdmin):
         }),
     )
 
+# chnage  of the view in the admin page
+class RecipeAdmin(admin.ModelAdmin):
+    list_display =['title', 'user', 'time_minutes', 'price', 'recipe_category']
+    list_filter =['recipe_category']
 
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Tag)
 admin.site.register(models.Ingredient)
-admin.site.register(models.Recipe)
+admin.site.register(models.Restaurant)
+
+admin.site.register(models.Recipe, RecipeAdmin)
