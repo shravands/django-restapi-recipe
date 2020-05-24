@@ -29,9 +29,22 @@ class RecipeAdmin(admin.ModelAdmin):
     list_display =['title', 'user', 'time_minutes', 'price', 'recipe_category']
     list_filter =['recipe_category']
 
+
+class IngredientAdmin(admin.ModelAdmin):
+    list_display =['name', 'user']
+    list_filter =['user']
+
+class RestaurantAdmin(admin.ModelAdmin):
+    list_display =['name', 'user', 'location', 'rating', 'restaurant_grade']
+    list_filter =['restaurant_grade']
+
+
+
+
 admin.site.register(models.User, UserAdmin)
 admin.site.register(models.Tag)
-admin.site.register(models.Ingredient)
-admin.site.register(models.Restaurant)
 
+admin.site.register(models.Ingredient, IngredientAdmin)
 admin.site.register(models.Recipe, RecipeAdmin)
+admin.site.register(models.Restaurant, RestaurantAdmin)
+
