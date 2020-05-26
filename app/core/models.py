@@ -127,3 +127,18 @@ class Restaurant(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ReviewRestaurant(models.Model):
+    """ReviewRestaurant object, the reviews will be based on the recipes avalible in restaurant"""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        default=""
+    )
+    restaurant = models.ForeignKey('Restaurant', on_delete=models.CASCADE, default=1)
+    recipe = models.ForeignKey('Recipe', on_delete=models.CASCADE, default=1)
+    rating = models.DecimalField(max_digits=5, decimal_places=2)
+    comments = models.CharField(max_length=255, blank =True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

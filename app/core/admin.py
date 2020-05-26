@@ -39,6 +39,11 @@ class RestaurantAdmin(admin.ModelAdmin):
     list_filter =['restaurant_grade']
 
 
+class ReviewRestaurantAdmin(admin.ModelAdmin):
+    list_display =['id', 'restaurant', 'recipe', 'user', 'rating', 'created_at']
+    list_filter =['restaurant', 'user']
+
+
 
 
 admin.site.register(models.User, UserAdmin)
@@ -47,4 +52,4 @@ admin.site.register(models.Tag)
 admin.site.register(models.Ingredient, IngredientAdmin)
 admin.site.register(models.Recipe, RecipeAdmin)
 admin.site.register(models.Restaurant, RestaurantAdmin)
-
+admin.site.register(models.ReviewRestaurant, ReviewRestaurantAdmin)

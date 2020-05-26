@@ -4,6 +4,7 @@ from restaurant import views
 
 router = DefaultRouter()
 router.register('restaurants', views.RestaurantViewSet)
+router.register('reviews', views.ReviewRestaurantViewSet)
 
 app_name = 'restaurant'
 

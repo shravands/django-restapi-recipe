@@ -2,7 +2,7 @@ from rest_framework import viewsets, mixins, status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from core.models import Restaurant, Recipe
+from core.models import Restaurant, Recipe, ReviewRestaurant
 
 from restaurant import serializers
 
@@ -32,6 +32,30 @@ class RestaurantViewSet(viewsets.ModelViewSet):
         """Return appropriate serializer class"""
         if self.action == 'retrieve':
             return serializers.RestaurantDetailSerializer
+
+        return self.serializer_class
+
+    def perform_create(self, serializer):
+        """Create a new recipe"""
+        return serializer.save(user=self.request.user)
+
+
+class ReviewRestaurantViewSet(viewsets.ModelViewSet):
+    """manage restaturants in db"""
+    serializer_class = serializers.ReviewRestaurantSerializer
+    queryset = ReviewRestaurant.objects.all()
+    authentication_classes = (TokenAuthentication,)
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        """Retrieve the restaurants for the authenticated user"""
+        queryset = self.queryset
+        return queryset
+
+    def get_serializer_class(self):
+        """Return appropriate serializer class"""
+        if self.action == 'retrieve':
+            return serializers.ReviewRestaurantDetailSerializer
 
         return self.serializer_class
 
