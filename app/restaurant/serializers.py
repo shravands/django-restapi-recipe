@@ -43,7 +43,7 @@ class ReviewRestaurantSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReviewRestaurant
         fields = ('id', 'user', 'recipe', 'restaurant', 'rating', 'comments')
-        read_only_fields = ('id',)
+        read_only_fields = ('id', 'user',)
 
 
 class ReviewRestaurantDetailSerializer(serializers.ModelSerializer):
@@ -52,15 +52,16 @@ class ReviewRestaurantDetailSerializer(serializers.ModelSerializer):
     recipe = RecipeDetailSerializer(read_only=True)
 
     average_rating = serializers.SerializerMethodField()
+    
     class Meta:
         model = ReviewRestaurant
         fields = ('id', 'user', 'recipe', 'restaurant', 'rating', 'comments', 'average_rating')
-        read_only_fields = ('id',)
+        read_only_fields = ('id', 'user',)
 
     def get_average_rating(self, reviewrestaurant):
         if reviewrestaurant:
             queryset = ReviewRestaurant.objects.filter(restaurant_id=reviewrestaurant.restaurant.id, recipe_id=reviewrestaurant.recipe.id).aggregate(Avg('rating'))
-            #return (reviewrestaurant.recipe.id)
+            # return (reviewrestaurant.recipe.id)
             return queryset['rating__avg'] #the data will be recieved in the form of dictonary for the queryset
         else:
             return ("unable to get average_rating for the restaurant")
@@ -69,4 +70,3 @@ class RestaurantDetailSerializer(RestaurantSerializer):
     """serialize the restaurant detail"""
     # using the RecipeDetailSerializer to get the detailed view for tags and ingridents
     recipes_avalible = RecipeDetailSerializer(many=True, read_only=True)
-    
