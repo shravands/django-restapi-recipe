@@ -43,6 +43,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_customer = models.BooleanField(default=False)
 
     objects = UserManager()
 
@@ -124,6 +125,7 @@ class Restaurant(models.Model):
     restaurant_grade = models.CharField(max_length=20, choices=GRADE_CATEGORY, default=None)
     email_contact = models.EmailField(max_length=50, unique=True)
     recipes_avalible = models.ManyToManyField('Recipe')
+    total_seating = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name

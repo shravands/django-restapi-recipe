@@ -17,7 +17,7 @@ class RestaurantSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Restaurant
-        fields = ('id', 'name', 'space_valible', 'rating', 'email_contact','location', 'restaurant_grade', 'recipes_avalible', 'avg_restaurant_rating')
+        fields = ('id', 'name', 'space_valible', 'total_seating', 'rating', 'email_contact','location', 'restaurant_grade', 'recipes_avalible', 'avg_restaurant_rating')
         read_only_fields = ('id',)
 
     def get_avg_restaurant_rating(self, restaurant):
