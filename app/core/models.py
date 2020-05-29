@@ -144,3 +144,18 @@ class ReviewRestaurant(models.Model):
     comments = models.CharField(max_length=255, blank =True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+class Booking(models.Model):
+    """Booking object, manage the bookings for the restaurant"""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        default=""
+    )
+    restaurant = models.ForeignKey('Restaurant', on_delete=models.CASCADE, default=1)
+    seats_number = models.IntegerField()
+    time_start = models.DateTimeField(auto_now=False, auto_now_add=False)
+    time_end = models.DateTimeField(auto_now=False, auto_now_add=False)
+    comments = models.CharField(max_length=255, blank =True)
+
