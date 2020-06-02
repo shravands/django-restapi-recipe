@@ -39,7 +39,7 @@ class BookingSerializer(serializers.ModelSerializer):
         avalible_seats = Restaurant.objects.filter(id=restaurnat_id).values('total_seating')
         avalible_seats_total = avalible_seats[0]['total_seating']
         already_booked = booked_seats['seats_number__sum']
-        seats_avalible_now = avalible_seats_total - already_booked
+        seats_avalible_now = int(avalible_seats_total) - int(already_booked)
         if data['seats_number'] >= 10:
             raise serializers.ValidationError("The seats cant be more than 10")
         elif seats_avalible_now <= 0:
