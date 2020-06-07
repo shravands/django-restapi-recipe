@@ -37,7 +37,7 @@ class BookingSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("The restaurant cannot be booked for more than 2 hours")
 
         # data validation for the seating numbers based on seating avalible in the restaurant
-        booked_seats = Booking.objects.filter(restaurant_id=restaurnat_id).aggregate(Sum('seats_number'))
+        booked_seats = Booking.objects.filter(restaurant_id=restaurnat_id, is_active=True).aggregate(Sum('seats_number'))
         avalible_seats = Restaurant.objects.filter(id=restaurnat_id).values('total_seating')
         avalible_seats_total = avalible_seats[0]['total_seating']
         already_booked = booked_seats['seats_number__sum']

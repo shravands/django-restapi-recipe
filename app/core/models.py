@@ -158,4 +158,5 @@ class Booking(models.Model):
     time_start = models.DateTimeField(auto_now=False, auto_now_add=False)
     time_end = models.DateTimeField(auto_now=False, auto_now_add=False)
     comments = models.CharField(max_length=255, blank =True)
+    is_active = models.BooleanField(default=False)
 
