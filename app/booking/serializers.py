@@ -19,7 +19,7 @@ class BookingSerializer(serializers.ModelSerializer):
         fields = ('id', 'user', 'restaurant', 'seats_number', 'time_start', 'time_end', 'comments')
         read_only_fields = ('id', 'user',)
 
-    # creating the global id for the restaurant from the data field
+    # creating the global id for the restaurant from the data field to accessible else where in the serializer
 
     def validate_restaurant(self, restaurant):
         global restaurnat_id
@@ -29,6 +29,8 @@ class BookingSerializer(serializers.ModelSerializer):
     # checking the the avalible seating data from the restaurants and booking objects
     def validate(self, data):
 
+        # change in the custom value of the comments
+        #data['comments'] = 'the comments added from the serializers, {}'.format(data['seats_number'])
         # Adding the validation for time constrain
         time_diff = (data['time_end'] - data['time_start']).seconds/60
         if time_diff > 120:
