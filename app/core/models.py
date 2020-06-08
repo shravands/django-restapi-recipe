@@ -44,6 +44,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_customer = models.BooleanField(default=False)
+    username = models.CharField(max_length=255, default='dbuser')
 
     objects = UserManager()
 

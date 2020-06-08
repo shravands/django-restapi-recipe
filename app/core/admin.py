@@ -45,8 +45,8 @@ class ReviewRestaurantAdmin(admin.ModelAdmin):
 
 
 class BookingAdmin(admin.ModelAdmin):
-    list_display =['id', 'restaurant', 'user', 'seats_number']
-    list_filter =['restaurant', 'user']
+    list_display =['id', 'restaurant', 'user', 'seats_number', 'is_active']
+    list_filter =['restaurant', 'user', 'is_active']
 
 
 

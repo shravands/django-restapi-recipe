@@ -16,7 +16,7 @@ class BookingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Booking
-        fields = ('id', 'user', 'restaurant', 'seats_number', 'time_start', 'time_end', 'comments')
+        fields = ('id', 'user', 'restaurant', 'seats_number', 'time_start', 'time_end', 'comments', 'is_active')
         read_only_fields = ('id', 'user',)
 
     # creating the global id for the restaurant from the data field to accessible else where in the serializer
