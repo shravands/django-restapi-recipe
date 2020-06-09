@@ -86,11 +86,6 @@ REST_FRAMEWORK={
     'EXCEPTION_HANDLER': 'requestlogs.views.exception_handler',
 }
 
-REQUESTLOGS = {
-    'STORAGE_CLASS': 'requestlogs.storages.LoggingStorage',
-    'ENTRY_CLASS': 'requestlogs.entries.RequestLogEntry',
-}
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
