@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'recipe',
     'restaurant',
     'booking',
+    'etl',
 ]
 
 MIDDLEWARE = [

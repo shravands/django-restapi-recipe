@@ -6,8 +6,3 @@ data = '{"action_name": None, "execution_time": "00:00:00.000915", "timestamp": 
 json_data = json.dumps(data, sort_keys=True, indent=4)
 dict_json = eval(json.loads(json_data))
 print(dict_json['request'])
-
-
-
-
-

@@ -3,8 +3,6 @@ from core.models import RequestLogs
 import json
 from collections import OrderedDict
 
-# currently the function is being integarted with the booking view in the queryset
-
 def log_db_run(abc):
     """writing the logs to db function"""
     log_file = open('./requestlogs.log', 'r+')
@@ -39,5 +37,5 @@ def log_db_run(abc):
     #erasing the data from the file which has been written into the db
     log_file.truncate(0)
     log_file.close()
-     
+    return count 
 

@@ -158,6 +158,17 @@ class Booking(models.Model):
     seats_number = models.IntegerField()
     time_start = models.DateTimeField(auto_now=False, auto_now_add=False)
     time_end = models.DateTimeField(auto_now=False, auto_now_add=False)
-    comments = models.CharField(max_length=255, blank =True)
+    comments = models.CharField(max_length=255, blank=True)
     is_active = models.BooleanField(default=False)
+
+
+class RequestLogs(models.Model):
+    """RequestLogs object to store the request logs"""
+    ip_address = models.CharField(max_length=255, blank=True)
+    user_id = models.IntegerField(blank =True)
+    method_type = models.CharField(max_length=50, blank=True)
+    request_path = models.CharField(max_length=255, blank=True)
+    response_code = models.CharField(max_length=15, blank=True)
+
+
 
