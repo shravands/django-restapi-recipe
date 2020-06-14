@@ -168,7 +168,12 @@ class RequestLogs(models.Model):
     user_id = models.IntegerField(blank =True)
     method_type = models.CharField(max_length=50, blank=True)
     request_path = models.CharField(max_length=255, blank=True)
-    response_code = models.CharField(max_length=15, blank=True)
+    response_code = models.CharField(max_length=15, blank=True) 
 
 
+class ConfigData(models.Model):
+    """The object to store all the config data"""
+    config_name = models.CharField(max_length=255, blank=True)
+    config_value = models.CharField(max_length=255, blank=True)
+    config_description = models.CharField(max_length=255, default="no description provided")
 
