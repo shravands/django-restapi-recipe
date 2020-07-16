@@ -25,7 +25,7 @@ SECRET_KEY = '5kk8#y83(nm8vz45c^c&n%u1mqrpb=)vhyv1(4ogx9hi=c*oea'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,12 +39,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'reset_migrations', #used for resetting migrations
     'core',
     'user',
     'recipe',
+    'restaurant',
+    'booking',
+    'etl',
 ]
 
 MIDDLEWARE = [
+    'requestlogs.middleware.RequestLogsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -73,6 +78,33 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'app.wsgi.application'
+
+
+# adding the custom settings for request logs, below is the reference link
+# https://pypi.org/project/django-requestlogs/
+
+REST_FRAMEWORK={
+    'EXCEPTION_HANDLER': 'requestlogs.views.exception_handler',
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'requestlogs_to_file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'requestlogs.log',
+        },
+    },
+    'loggers': {
+        'requestlogs': {
+            'handlers': ['requestlogs_to_file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
 
 
 # Database

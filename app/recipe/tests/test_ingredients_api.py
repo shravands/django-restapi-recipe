@@ -11,6 +11,8 @@ from recipe.serializers import IngredientSerializer
 
 INGREDIENTS_URL = reverse('recipe:ingredient-list')
 
+# There may be failure in some testcases as we are trying to make ingridents api public (only for logged in users)
+
 
 class PublicIngredientsApiTests(TestCase):
     """Test the publicly avalible ingredeients api"""

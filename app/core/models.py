@@ -43,6 +43,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_customer = models.BooleanField(default=False)
+    username = models.CharField(max_length=255, default='dbuser')
 
     objects = UserManager()
 
@@ -75,6 +77,16 @@ class Ingredient(models.Model):
 
 class Recipe(models.Model):
     """Recipe object"""
+
+# Adding of choices for which the recipe category belongs to
+
+    CATEGORY_TYPE_CHOICES = (
+        ('vegan', 'VEGAN'),
+        ('vegetarian', 'VEGETERIAN'),
+        ('non_veg', 'NON-VEG'),
+        ('novalue', 'NOVALUE')
+        )
+
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
@@ -86,6 +98,82 @@ class Recipe(models.Model):
     ingredients = models.ManyToManyField('Ingredient')
     tags = models.ManyToManyField('Tag')
     image = models.ImageField(null=True, upload_to=recipe_image_file_path)
+    recipe_category = models.CharField(max_length=20, choices=CATEGORY_TYPE_CHOICES, default='novalue')
 
     def __str__(self):
         return self.title
+
+
+class Restaurant(models.Model):
+    """Restaurant object"""
+
+    GRADE_CATEGORY = (
+        ('single_star', 'single_star'),
+        ('two_star', 'two_star'),
+        ('three_star', 'three_star'),
+        ('five_star', 'five_star')
+    )
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        default=""
+    )
+    name = models.CharField(max_length=255)
+    space_valible = models.DecimalField(max_digits=10, decimal_places=2)
+    location = models.CharField(max_length=255, blank=True)
+    rating = models.DecimalField(max_digits=5, decimal_places=2)
+    restaurant_grade = models.CharField(max_length=20, choices=GRADE_CATEGORY, default=None)
+    email_contact = models.EmailField(max_length=50, unique=True)
+    recipes_avalible = models.ManyToManyField('Recipe')
+    total_seating = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+
+class ReviewRestaurant(models.Model):
+    """ReviewRestaurant object, the reviews will be based on the recipes avalible in restaurant"""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        default=""
+    )
+    restaurant = models.ForeignKey('Restaurant', on_delete=models.CASCADE, default=1)
+    recipe = models.ForeignKey('Recipe', on_delete=models.CASCADE, default=1)
+    rating = models.DecimalField(max_digits=5, decimal_places=2)
+    comments = models.CharField(max_length=255, blank =True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+class Booking(models.Model):
+    """Booking object, manage the bookings for the restaurant"""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        default=""
+    )
+    restaurant = models.ForeignKey('Restaurant', on_delete=models.CASCADE, default=1)
+    seats_number = models.IntegerField()
+    time_start = models.DateTimeField(auto_now=False, auto_now_add=False)
+    time_end = models.DateTimeField(auto_now=False, auto_now_add=False)
+    comments = models.CharField(max_length=255, blank=True)
+    is_active = models.BooleanField(default=False)
+
+
+class RequestLogs(models.Model):
+    """RequestLogs object to store the request logs"""
+    ip_address = models.CharField(max_length=255, blank=True)
+    user_id = models.IntegerField(blank =True)
+    method_type = models.CharField(max_length=50, blank=True)
+    request_path = models.CharField(max_length=255, blank=True)
+    response_code = models.CharField(max_length=15, blank=True) 
+
+
+class ConfigData(models.Model):
+    """The object to store all the config data"""
+    config_name = models.CharField(max_length=255, blank=True)
+    config_value = models.CharField(max_length=255, blank=True)
+    config_description = models.CharField(max_length=255, default="no description provided")
+
