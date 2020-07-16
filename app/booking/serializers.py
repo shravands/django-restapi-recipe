@@ -52,3 +52,4 @@ class BookingSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("The restaurant is completly full")
         elif (seats_avalible_now - data['seats_number']) < 0 :
             raise serializers.ValidationError(" Only {} seats are avalible for booking".format(seats_avalible_now)
+        return data
