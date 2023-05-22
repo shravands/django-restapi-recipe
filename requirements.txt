@@ -5,7 +5,7 @@ psycopg2>=2.8.5,<2.9.0
 Pillow>=7.1.1,<7.1.2
 django-requestlogs==0.2.1
 django-ipware==2.1.0
-requests==2.23.0
+requests==2.31.0
 
 
 flake8>=3.7.9,<3.8.0
